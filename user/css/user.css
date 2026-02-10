@@ -1,0 +1,73 @@
+/* login.css */
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f0f0f0; /* light grey background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+form#loginForm {
+  background-color: white;
+  padding: 40px 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 380px;
+  box-sizing: border-box;
+}
+
+form#loginForm h2 {
+  margin-bottom: 30px;
+  color: #0B1D51; /* navy blue */
+  text-align: center;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+form#loginForm label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #0B1D51; /* navy blue */
+  font-size: 14px;
+}
+
+form#loginForm input[type="email"],
+form#loginForm input[type="password"] {
+  width: 100%;
+  padding: 12px 14px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 15px;
+  transition: border-color 0.3s ease;
+  box-sizing: border-box;
+}
+
+form#loginForm input[type="email"]:focus,
+form#loginForm input[type="password"]:focus {
+  border-color: #0B1D51; /* navy blue focus */
+  outline: none;
+}
+
+form#loginForm input[type="submit"] {
+  width: 100%;
+  padding: 14px;
+  background-color: #0B1D51; /* navy blue */
+  border: none;
+  border-radius: 6px;
+  color: white;
+  font-weight: 700;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+form#loginForm input[type="submit"]:hover {
+  background-color: #142c6e; /* darker navy on hover */
+}
