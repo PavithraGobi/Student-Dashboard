@@ -1,0 +1,200 @@
+ <!DOCTYPE html>
+<html>
+<head>
+  <title>Register</title>
+  <style>
+body {
+  background-color: #F5F7FA;
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  color: #333;
+}
+
+form {
+  width: 320px; /* reduced from 400px */
+  background-color: white;
+  border-radius: 20px; /* more curved corners */
+  padding: 25px 20px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  border: 2px solid #0f3460;
+}
+
+h2 {
+  color: #0f3460;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+label {
+  font-size: 14px;
+  margin-bottom: 6px;
+  display: block;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="date"],
+input[type="password"] {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 14px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 13px;
+  box-sizing: border-box;
+}
+
+#email-status {
+  font-size: 13px;
+  margin-top: -10px;
+  margin-bottom: 10px;
+  color: red;
+}
+
+input[type="submit"] {
+  width: 100%;
+  padding: 10px;
+  background-color: #0f3460;
+  color: white;
+  font-weight: bold;
+  font-size: 15px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+}
+
+input[type="submit"]:hover {
+  background-color: #0B1D51;
+}
+
+a {
+  color: #0f3460;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+a:hover {
+  color: #732d91;
+}
+
+p {
+  margin-top: 15px;
+  text-align: center;
+  font-size: 14px;
+}
+
+
+  </style>
+</head>
+<body>
+  <form action="regphp.php" method="POST" id="registrationForm">
+    <h2>Register Here</h2>
+
+    <label for="username"><b>FULL NAME:</b></label>
+    <input type="text" id="username" name="username" placeholder="Enter your name">
+
+    <div id="dob-container" style="cursor: pointer;">
+      <label for="date_of_birth"><b>DOB:</b></label>
+      <input type="date" id="date_of_birth" name="date_of_birth" >
+    </div>
+
+    <label for="email"><b>EMAIL:</b></label>
+    <input type="email" id="email" name="email" placeholder="Enter your email ID" onblur="checkEmail()">
+    <div id="email-status"></div>
+
+ <label for="phone_number"><b>PHONE NUMBER:</b></label>
+<input type="tel" id="phone_number" name="phone_number" placeholder="Enter your phone number">
+
+<label for="dept_id"><b>DEPARTMENT:</b></label>
+<select id="dept_id" name="dept_id" required>
+  <option value="">-- Select Department --</option>
+  <option value="1">CSE</option>
+  <option value="2">ECE</option>
+  <option value="3">EEE</option>
+  <option value="4">IT</option>
+</select>
+
+<label for="password">PASSWORD:</label>
+<input type="password" id="password" name="password" placeholder="Enter password">
+
+<label for="confirm_Password">CONFIRM PASSWORD:</label>
+<input type="password" id="confirm_Password" name="confirm_Password" placeholder="Confirm password">
+
+
+    <input type="submit" value="Submit">
+
+    <p style="text-align:center;margin-top:10px;">
+      Already registered?
+      <a href="user_login.html">Login here</a>
+    </p>
+  </form>
+
+  <script>
+    document.getElementById("dob-container").addEventListener("click", function () {
+      const dobInput = document.getElementById("date_of_birth");
+      if (dobInput.showPicker) {
+        dobInput.showPicker();
+      } else {
+        dobInput.focus();
+      }
+    });
+
+    function checkEmail() {
+      const email = document.getElementById('email').value.trim();
+      const statusDiv = document.getElementById('email-status');
+
+      if (!email) {
+        statusDiv.textContent = '';
+        return;
+      }
+
+      const xhr = new XMLHttpRequest();
+      xhr.open("POST", "checkemail.php", true);
+      xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+          statusDiv.textContent = xhr.responseText;
+          statusDiv.style.color = xhr.responseText.includes("✅") ? "green" : "red";
+        }
+      };
+      xhr.send("email=" + encodeURIComponent(email));
+    }
+
+    document.getElementById("registrationForm").addEventListener("submit", function (event) {
+      const username = document.getElementById("username").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const phone_number = document.getElementById("phone_number").value.trim();
+      const date_of_birth = document.getElementById("date_of_birth").value;
+      const password = document.getElementById("password").value;
+      const confirm_Password = document.getElementById("confirm_Password").value;
+
+      if (!username || !email || !phone_number || !date_of_birth || !password || !confirm_Password) {
+        alert("All fields are required!");
+        event.preventDefault();
+      } else if (!email.includes("@")) {
+        alert("Please enter a valid email.");
+        event.preventDefault();
+      } else if (!/^\d{10}$/.test(phone_number)) {
+        alert("Phone number must be 10 digits.");
+        event.preventDefault();
+      } else if (password.length < 8) {
+        alert("Password must be at least 8 characters long.");
+        event.preventDefault();
+      } else if (password !== confirm_Password) {
+        alert("Passwords do not match. Please try again.");
+        event.preventDefault();
+      }
+    });
+  </script>
+</body>
+</html>
+
